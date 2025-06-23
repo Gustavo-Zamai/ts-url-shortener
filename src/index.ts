@@ -1,7 +1,6 @@
 import express from 'express';
-import { Request, Response } from 'express';
-import { URLController } from '../controller/URLController';
-import { MongoConnection } from '../database/mongoConnection';
+import { URLController } from './controller/url-connection';
+import { MongoConnection } from './database/mongo-connection';
 
 const api = express();
 api.use(express.json());
@@ -13,4 +12,4 @@ const urlController = new URLController();
 api.post('/shortener', urlController.shortener);
 api.get('/:hash', urlController.redirect);
 
-api.listen(3001, () => console.log('Express running!')); 
+api.listen(3000, () => console.log('Express running!')); 

@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import shortid from 'shortid';
 import { config } from '../config/constants'
-import { URLModel } from '../database/model/URL';
+import { UrlModel } from '../model/url-model';
 
 export class URLController{
     public async shortener(req: Request, res: Response): Promise<void>{
         //verify URL
-        const { originURL } = req.body
-        const url = await URLModel.findOne({ originURL})
+        const { originUrl } = req.body
+        const url = await UrlModel.findOne({ originUrl})
         if (url) {
             res.json(url);
             return
@@ -15,13 +15,13 @@ export class URLController{
         
         //create hash to URL 
         const hash = shortid.generate();
-        const shortURL = `${config.API_URL}/${hash}`;
+        const shortUrl = `${config.API_URL}/${hash}`;
 
         //save URL into Database
-        const newUrl = await URLModel.create({ hash, shortURL, originURL})
+        const newUrl = await UrlModel.create({ hash, shortUrl, originUrl})
         res.json(newUrl);
         //return URL 
-        res.json({ originURL, hash, shortURL})
+        res.json({ originUrl, hash, shortUrl})
     }
 
     public async redirect(req: Request, res: Response): Promise<void>{
@@ -29,9 +29,9 @@ export class URLController{
         const { hash } = req.params;
 
         //
-        const url = await URLModel.findOne({ hash })
-        if (url){
-            res.redirect(url.originURL)
+        const urlRecord = await UrlModel.findOne({ hash })
+        if (urlRecord){
+            res.redirect(urlRecord.originUrl)
             return
         }
         res.status(400).json({ error: 'URL not found'})
