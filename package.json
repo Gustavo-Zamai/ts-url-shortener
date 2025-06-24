@@ -4,12 +4,7 @@
   "description": "Develop a URL shortener with NodeJS",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
     "build": "tsc",
-    "dev": "ts-node src/index.ts",
-    "start:dev": "tsx --env-file=.env src/index.ts",
-    "start:watch": "tsx watch --env-file=.env src/index.ts",
-    "start:build": "npm run dist && --env-file=.env node/dist/index.js",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\""
   },
